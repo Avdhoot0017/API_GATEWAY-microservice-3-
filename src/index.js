@@ -10,12 +10,14 @@ const  apiRoutes = require('./routes/index')
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 app.use('/api' , apiRoutes);
 //now hit localhost/api/v1/info 
 
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+
 
 app.listen(serverConfig.PORT , ()=>{
 
