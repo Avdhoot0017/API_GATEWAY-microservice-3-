@@ -9,7 +9,6 @@ const { StatusCodes } = require('http-status-codes');
 async function createuser(req,res)
  {
 
-    
     try {
 
         const user = await UserService.createUser({
@@ -44,6 +43,50 @@ async function createuser(req,res)
  }
 
 
+
+
+
+ async function signIn(req,res)
+ {
+
+    try {
+
+        const user = await UserService.signIn({
+
+            email: req.body.email,
+            pasword: req.body.pasword,
+
+
+        });
+
+        
+
+
+        successresponce.data = user;
+
+
+        return res.status(StatusCodes.CREATED).json(successresponce)
+        
+    } catch (error) {
+
+
+        console.log(error);
+
+        
+
+        errorresponce.error = error;
+        
+
+        return res.status(error.statusCode).json(errorresponce);
+
+
+        
+        
+    }
+ }
+
+
  module.exports = {
-    createuser
+    createuser,
+    signIn
  }
