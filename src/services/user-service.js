@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const { Auth }  = require('../utils/common')
 
 
-const  Apperror   = require('../utils/errors/app-error')
+const  Apperror   = require('../utils/errors/app-error');
+const { application } = require('express');
 
 const userRepo = new UserRepository();
 
@@ -66,10 +67,57 @@ async function signIn(data)
 
 
 
+async function isAuthenticated(token)
+{
+    try {
+        if(!token)
+        {
+
+            throw new Apperror('missing jwt token',StatusCodes.BAD_REQUEST);
+
+        }
+
+        const respone = Auth.verifyToken(token);
+        const user = await userRepo.get(respone.id);
+        if(!user)
+        {
+            throw new Apperror('No user found ',StatusCodes.NOT_FOUND);
+
+        }
+
+        return user.id;
+
+        
+    } catch (error) {
+
+        if(error instanceof Apperror) throw error;
+
+
+
+        if(error.name == 'JsonWebTokenError')
+        {
+            throw new Apperror('inVAlid jwt Token',StatusCodes.BAD_REQUEST);
+
+        }
+
+        console.log(error);
+        throw new Apperror('something went wrong',StatusCodes.BAD_REQUEST);
+
+    
+    
+
+        
+        
+    }
+}
+
+
+
 
 
 
 module.exports = {
     createUser, 
-    signIn
+    signIn,
+    isAuthenticated
 }

@@ -1,6 +1,7 @@
 const {serverConfig , Logger} = require('./config/index');
 const express = require('express');
-const  apiRoutes = require('./routes/index')
+const  apiRoutes = require('./routes/index');
+
 
 
 

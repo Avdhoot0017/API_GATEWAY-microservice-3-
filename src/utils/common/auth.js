@@ -43,11 +43,29 @@ function createToken(input)
 }
 
 
+function verifyToken(token)
+{
+    try {
+
+        return jwt.verify(token ,serverConfig.JWR_SECRET);
+
+        
+    } catch (error) {
+
+        console.log(error);
+        throw error;
+        
+    }
+
+}
+
+
 
 module.exports = {
 
     checkPAss,
-    createToken
+    createToken,
+    verifyToken
 
 
 }
