@@ -1,19 +1,26 @@
-const { UserRepository } = require('../repository');
+const { UserRepository, roleRepository } = require('../repository');
 const { StatusCodes } = require('http-status-codes');
 const bcrypt = require('bcrypt');
-const { Auth }  = require('../utils/common')
+const { Auth, Enums }  = require('../utils/common');
+const { ADMIN,CUSTOMER,FLIGHT_COMPANY } = Enums.USERS_ROLES;
 
 
 const  Apperror   = require('../utils/errors/app-error');
 const { application } = require('express');
 
 const userRepo = new UserRepository();
+const RoleRepo = new roleRepository();
+
 
 async function createUser(data)
 {
 
     try {
         const user = await userRepo.create(data);
+        const role = await RoleRepo.getRolebyname(CUSTOMER);
+        user.addRole(role);
+
+
     
         return user;
         

@@ -28,10 +28,11 @@ app.use(express.urlencoded({extended: true}));
 
 
 app.use(limiter);
+app.use('/api' , apiRoutes);
 app.use('/flightService', createProxyMiddleware({ target: serverConfig.FLIGHT_SERVICE, changeOrigin: true }));
 app.use('/bookingService', createProxyMiddleware({ target: serverConfig.BOOKING_SERVICE, changeOrigin: true }));
 
-app.use('/api' , apiRoutes);
+
 //now hit localhost/api/v1/info 
 
 
