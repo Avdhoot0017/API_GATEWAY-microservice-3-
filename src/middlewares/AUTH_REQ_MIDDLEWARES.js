@@ -11,7 +11,13 @@ function validateAuthRequest(req,res,next){
          return res.status(StatusCodes.BAD_REQUEST).json(errorresponce);
     }
 
- 
+
+     if(!req.body.pasword){
+
+        errorresponce.message = 'something went wrong while authentication ';
+        errorresponce.error = new Apperror(["password not found"] , StatusCodes.BAD_REQUEST );
+         return res.status(StatusCodes.BAD_REQUEST).json(errorresponce);
+    }
 
     next();
 
@@ -32,7 +38,7 @@ async function checkAUTH(req,res,next)
         
     } catch (error) {
 
-        return res.status(error.StatusCodes).json(error); 
+        return res.status(error.StatusCodes).json(error);
         
     }
 }
