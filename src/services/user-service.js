@@ -119,6 +119,81 @@ async function isAuthenticated(token)
 }
 
 
+async function addRoletoUser(data)
+{
+    try {
+
+        const user = await userRepo.get(data.id);
+
+        if(!user)
+        {
+            throw new Apperror('not user found for given ID', StatusCodes.BAD_REQUEST);
+
+        }
+
+        const role = await RoleRepo.getRolebyname(data.role);
+
+        if(!role)
+        {
+            throw new Apperror('not role found for given name', StatusCodes.BAD_REQUEST);
+
+        }
+
+        user.addRole(role);
+        return user;
+
+        
+    } catch (error) {
+
+        if(error instanceof Apperror) throw error;
+
+        console.log(error);
+ 
+        throw new Apperror('somethong went wrong from service',StatusCodes.INTERNAL_SERVER_ERROR);
+        
+    }
+}
+
+async function isadmin(id)
+{
+
+    try {
+
+        const user = await userRepo.get(id);
+
+        if(!user)
+        {
+            throw new Apperror('not user found for given ID', StatusCodes.BAD_REQUEST);
+
+        }
+
+        const adminrole = await RoleRepo.getRolebyname(ADMIN);
+
+        if(!adminrole)
+        {
+            throw new Apperror('not role found for given name', StatusCodes.BAD_REQUEST);
+
+        }
+
+
+        return user.hasRole(adminrole);
+
+
+        
+    } catch (error) {
+
+        if(error instanceof Apperror) throw error;
+
+        console.log(error);
+ 
+        throw new Apperror('somethong went wrong from service',StatusCodes.INTERNAL_SERVER_ERROR);
+        
+    }
+
+
+}
+
+
 
 
 
@@ -126,5 +201,7 @@ async function isAuthenticated(token)
 module.exports = {
     createUser, 
     signIn,
-    isAuthenticated
+    isAuthenticated,
+    addRoletoUser ,
+    isadmin
 }

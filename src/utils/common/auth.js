@@ -29,7 +29,7 @@ function createToken(input)
 {
 
     try {
-        return jwt.sign(input, serverConfig.JWR_SECRET , {expiresIn: serverConfig.JWT_EXPIRY});
+        return jwt.sign(input, serverConfig.JWR_SECRET , {expiresIn: '1h'});
 
         
     } catch (error) {

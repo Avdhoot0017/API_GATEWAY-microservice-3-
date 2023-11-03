@@ -86,7 +86,55 @@ async function createuser(req,res)
  }
 
 
+
+
+ async function addroletoUSer(req,res)
+ {
+
+    try {
+
+        const user = await UserService.addRoletoUser({
+
+            role: req.body.role,
+            id: req.body.id,
+
+
+        });
+
+        
+
+
+        successresponce.data = user;
+
+
+        return res.status(StatusCodes.CREATED).json(successresponce)
+        
+    } catch (error) {
+
+
+        console.log(error);
+
+        
+
+        errorresponce.error = error;
+        
+
+        return res.status(error.statusCode).json(errorresponce);
+
+
+        
+        
+    }
+ }
+
+
+ 
+
+
+
+
  module.exports = {
     createuser,
-    signIn
+    signIn,
+    addroletoUSer
  }
